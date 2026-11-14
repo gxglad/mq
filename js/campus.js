@@ -10,7 +10,8 @@
     w5: [0.055, 0.47], w6: [0.210, 0.47], w7: [0.330, 0.47], w8: [0.390, 0.47],
     w9: [0.055, 0.79], w10: [0.210, 0.79], w11: [0.330, 0.79], w12: [0.390, 0.79],
     w13: [0.210, 0.93], w14: [0.330, 0.93],
-    x1: [0.390, 0.55], x2: [0.448, 0.55], m1: [0.415, 0.93],
+    gz1: [0.400, 0.215], gz2: [0.436, 0.215],
+    m1: [0.415, 0.93],
     e1: [0.448, 0.26], e2: [0.545, 0.26], e3: [0.735, 0.26], e4: [0.860, 0.26],
     e5: [0.448, 0.55], e6: [0.533, 0.495], e7: [0.716, 0.495], e8: [0.860, 0.55],
     e9: [0.448, 0.82], e10: [0.533, 0.82], e11: [0.716, 0.82], e12: [0.860, 0.82],
@@ -25,8 +26,7 @@
     ["w2", "w6"], ["w6", "w10"], ["w10", "w13"],
     ["w3", "w7"], ["w7", "w11"], ["w11", "w14"],
     ["w4", "w8"], ["w8", "w12"],
-    ["w8", "x1"], ["x1", "x2"], ["x1", "m1"],
-    ["x2", "e5"],
+    ["w4", "gz1"], ["gz1", "gz2"], ["gz2", "e1"],
     ["e1", "e2"], ["e2", "e3"], ["e3", "e4"],
     ["e5", "e6"], ["e6", "e7"], ["e7", "e8"],
     ["e9", "e10"], ["e10", "e11"], ["e11", "e12"],
@@ -37,6 +37,8 @@
     ["e8", "e13"], ["e13", "e14"], ["e14", "e12"],
     ["m1", "e9"]
   ];
+
+  var ZONES = { all: "全部", west: "实训区", east: "教学区" };
 
   function px(u, v) { return { x: u * IW, y: v * IH }; }
 
@@ -172,6 +174,45 @@
     img.setAttribute("href", "assets/images/campus-plan.jpg");
     img.setAttributeNS("http://www.w3.org/1999/xlink", "href", "assets/images/campus-plan.jpg");
 
+    var gz = document.getElementById("layerAreas");
+    el("rect", {
+      x: 0, y: 0, width: IW * 0.405, height: IH,
+      fill: "#7f9a86", "fill-opacity": "0.10", "pointer-events": "none"
+    }, gz);
+    el("rect", {
+      x: IW * 0.425, y: 0, width: IW * 0.575, height: IH,
+      fill: "#7f9cbd", "fill-opacity": "0.10", "pointer-events": "none"
+    }, gz);
+    el("line", {
+      x1: IW * 0.408, y1: 0, x2: IW * 0.408, y2: IH,
+      stroke: "#c0392b", "stroke-width": 3, "stroke-dasharray": "12 10", "stroke-opacity": "0.55",
+      "pointer-events": "none"
+    }, gz);
+
+    var lt = el("text", {
+      x: IW * 0.20, y: IH * 0.075, "text-anchor": "middle",
+      "font-size": 26, "font-weight": 700, fill: "#3d6b52", "fill-opacity": "0.55",
+      "letter-spacing": 8, "pointer-events": "none"
+    }, gz);
+    lt.textContent = "实训区";
+    var rt = el("text", {
+      x: IW * 0.72, y: IH * 0.075, "text-anchor": "middle",
+      "font-size": 26, "font-weight": 700, fill: "#2d5680", "fill-opacity": "0.55",
+      "letter-spacing": 8, "pointer-events": "none"
+    }, gz);
+    rt.textContent = "教学区";
+
+    var gt = el("g", { "pointer-events": "none" }, gz);
+    el("circle", {
+      cx: IW * 0.412, cy: IH * 0.215, r: 13,
+      fill: "#fff", stroke: "#c0392b", "stroke-width": 3
+    }, gt);
+    var gtx = el("text", {
+      x: IW * 0.412, y: IH * 0.215 + 36, "text-anchor": "middle",
+      "font-size": 12, "font-weight": 700, fill: "#c0392b"
+    }, gt);
+    gtx.textContent = "东北门";
+
     all.forEach(function (b, idx) {
       var c = CAT[b.c] || CAT.admin;
       var grp = el("g", { "class": "bldg", "data-id": b.id }, g2);
@@ -215,6 +256,7 @@
       b._el = grp;
       b._idx = idx + 1;
       b._node = nearestNode(b);
+      b.zone = (b.x + b.w / 2) < IW * 0.405 ? "west" : "east";
     });
   }
 
@@ -245,6 +287,7 @@
         '<span class="cat" style="background:' + c.fill + ';color:' + c.text + '">' + b._idx + " · " + c.name + "</span>" +
         "<h3>" + es(b.name) + "</h3></div>" +
       '<div class="detail-bd">' +
+        '<div class="row"><span>分区</span><b>' + (b.zone === "west" ? "实训区（西侧）" : "教学区（东侧）") + "</b></div>" +
         '<div class="row"><span>位置</span><b>' + es(b.sub) + "</b></div>" +
         '<div class="row"><span>规模</span><b>' + es(b.f) + "</b></div>" +
         (b.dept !== "—" ? '<div class="row"><span>所属</span><b>' + es(b.dept) + "</b></div>" : "") +
@@ -322,7 +365,11 @@
 
   function renderChips() {
     var box = document.getElementById("catChips");
-    var items = [{ k: "all", n: "全部" }].concat(Object.keys(CAT).map(function (k) { return { k: k, n: CAT[k].name }; }));
+    var items = [
+      { k: "all", n: "全部" },
+      { k: "west", n: "实训区（西）" },
+      { k: "east", n: "教学区（东）" }
+    ];
     box.innerHTML = items.map(function (it) {
       return '<button type="button" data-k="' + it.k + '"' + (it.k === filter ? ' class="on"' : "") + ">" + it.n + "</button>";
     }).join("");
@@ -330,20 +377,33 @@
       btn.onclick = function () {
         filter = btn.getAttribute("data-k");
         renderChips(); renderList();
-        all.forEach(function (x) { x._el.classList.toggle("dim", filter !== "all" && x.c !== filter); });
+        all.forEach(function (x) {
+          x._el.classList.toggle("dim", filter !== "all" && x.zone !== filter);
+        });
       };
     });
   }
 
   function renderList() {
     var box = document.getElementById("buildList");
-    var list = all.filter(function (x) { return filter === "all" || x.c === filter; });
+    var list = all.filter(function (x) { return filter === "all" || x.zone === filter; });
     document.getElementById("listCount").textContent = list.length + " 处";
-    box.innerHTML = list.map(function (b) {
-      var c = CAT[b.c] || CAT.admin;
-      return '<div class="list-item" data-id="' + b.id + '"><i style="background:' + c.fill + ';border:1px solid ' + c.edge + '"></i>' +
-        "<span>" + b._idx + ". " + es(b.name) + "</span></div>";
-    }).join("");
+
+    var groups = [{ k: "west", n: "实训区（西侧）" }, { k: "east", n: "教学区（东侧）" }];
+    var html = "";
+    groups.forEach(function (g) {
+      var sub = list.filter(function (x) { return x.zone === g.k; });
+      if (!sub.length) return;
+      html += '<div class="list-group">' + g.n + "<em>" + sub.length + "</em></div>";
+      html += sub.map(function (b) {
+        var c = CAT[b.c] || CAT.admin;
+        return '<div class="list-item" data-id="' + b.id + '">' +
+          '<i style="background:' + c.fill + ';border:1px solid ' + c.edge + '"></i>' +
+          "<span>" + b._idx + ". " + es(b.name) + "</span></div>";
+      }).join("");
+    });
+    box.innerHTML = html;
+
     box.querySelectorAll(".list-item").forEach(function (li) {
       li.onclick = function () { select(li.getAttribute("data-id"), { focus: true }); };
     });

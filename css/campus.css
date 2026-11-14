@@ -205,3 +205,14 @@ svg .road-dash { fill: none; stroke: #e8eef6; stroke-width: 1.5; stroke-dasharra
 .section-map .map-bar { border: 1px solid var(--line); border-radius: var(--r) var(--r) 0 0; background: #fff; }
 .section-map .map-bottom { border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: #fff; }
 @media (max-width: 1080px) { .section-map .map-canvas { height: 46vh; } }
+.list-group {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 16px 6px; font-size: 12px; font-weight: 700;
+  color: var(--ink-700); background: #f7fafd; border-bottom: 1px solid var(--line);
+  letter-spacing: .5px;
+}
+.list-group em {
+  font-style: normal; font-weight: 400; font-size: 11px;
+  color: var(--text-3); background: #fff; border: 1px solid var(--line);
+  border-radius: 999px; padding: 0 7px;
+}
