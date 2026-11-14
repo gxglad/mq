@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>江苏省张家港中等专业学校 · 校园 AI 门户</title>
+<meta name="description" content="江苏省张家港中等专业学校门户网站。一句话问多件事，AI 一次检索全部返回，附原文出处。">
+<link rel="icon" href="assets/icons/favicon.png" type="image/png">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/campus.css">
+</head>
+<body data-page="home">
+<a class="skip" href="#main">跳到主要内容</a>
+
+<div class="topbar" data-shell="top"></div>
+<header class="masthead" data-shell="masthead"></header>
+<nav class="nav" data-shell="nav"></nav>
+
+<section class="ai-hero">
+  <div class="wrap">
+    <div class="ai-hero-grid">
+      <div>
+        <div class="ai-hero-badge"><em></em>校园 AI 在线 · 站内资料已索引</div>
+        <h1>一句话，问完整个学校</h1>
+        <p class="lead">招生、专业、社团、宿舍、竞赛、就业，都能直接问。一次把几件事全说出来，用加号隔开，我分开查、一起给你。</p>
+
+        <form class="askbar" id="heroAsk" autocomplete="off">
+          <input id="heroInput" type="text" placeholder="例：今年竞赛获奖 + 学校介绍 + 计算机网络技术课程">
+          <button type="submit">问一下 →</button>
+        </form>
+
+        <div class="chips" id="heroChips"></div>
+      </div>
+
+      <div class="ai-hero-side">
+        <div class="cell"><b>28</b><span>个中高职专业可查</span></div>
+        <div class="cell"><b>419</b><span>名专任教师资料</span></div>
+        <div class="cell"><b>不限</b><span>一次可同时问几件事</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="heroResult" style="display:none;background:#fff;border-bottom:1px solid var(--line)">
+  <div class="wrap" style="padding:26px 0 30px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <b style="font-size:15px;color:var(--ink-700)" id="heroResultTitle">检索结果</b>
+      <span style="font-size:12.5px;color:var(--text-3)" id="heroResultMeta"></span>
+      <a href="ai.html" style="margin-left:auto;font-size:13px;color:var(--blue)">在任务台打开 ↗</a>
+    </div>
+    <div id="heroResultList"></div>
+  </div>
+</section>
+
+<main id="main">
+
+  <section class="facts"><div class="wrap" data-facts></div></section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>校园 AI 问答</h2>
+          <p>想到什么问什么，不用先想关键词，也不用一页页翻</p>
+        </div>
+      </div>
+      <div class="home-ai reveal">
+        <div class="home-ai-hd">
+          <span class="dot"></span>
+          <b>校园 AI</b>
+          <span>基于站内资料作答 · 附原文出处</span>
+          <span class="right" id="chatCount">0 轮对话</span>
+        </div>
+        <div class="home-ai-bd" id="chatBody"></div>
+        <div class="home-ai-ft">
+          <input id="chatInput" type="text" placeholder="问点具体的，例如：学校有社团吗？宿舍几个人一间？">
+          <button type="button" id="chatSend">发送</button>
+        </div>
+        <div style="padding:0 22px 18px"><div class="chips" id="chatChips" style="margin-top:0"></div></div>
+      </div>
+
+      <div class="caps">
+        <div class="cap reveal"><span class="n">01</span><b>多任务并行</b><span>一句话带几件事，分开检索、分别返回，一个没结果不拖累其它。</span></div>
+        <div class="cap reveal"><span class="n">02</span><b>结果直连出处</b><span>每条答复都挂链接，点开就是对应页面或官网原文。</span></div>
+        <div class="cap reveal"><span class="n">03</span><b>模糊也能问</b><span>说得不准确也可以，按语义匹配最接近的答案。</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero" data-hero></section>
+
+  <section class="section">
+    <div class="wrap cols-main">
+      <div class="card reveal">
+        <div class="card-hd">
+          <h3>新闻中心</h3>
+          <div class="tabs" data-news-tabs>
+            <button class="on" data-c="校园新闻">校园新闻</button>
+            <button data-c="部门新闻">部门新闻</button>
+            <button data-c="通知公告">通知公告</button>
+          </div>
+        </div>
+        <div class="card-bd">
+          <div data-home-news style="margin-bottom:18px"></div>
+          <div data-news-list></div>
+          <div style="text-align:right;margin-top:8px"><a class="sec-more" href="news.html">查看全部新闻 ›</a></div>
+        </div>
+      </div>
+
+      <div style="display:grid;gap:18px">
+        <div class="road reveal">
+          <h3>发展记事</h3>
+          <p>1980 — 2024</p>
+          <ul data-home-road></ul>
+          <a href="school.html#dashiji" style="color:var(--gold-2);font-size:12.5px;position:relative;z-index:2">完整时间线 ›</a>
+        </div>
+        <div class="card reveal">
+          <div class="card-hd"><h3>常用通道</h3></div>
+          <div class="card-bd" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <a class="btn btn-line" style="height:36px;font-size:13px" href="campus.html">校园地图</a>
+            <a class="btn btn-line" style="height:36px;font-size:13px" href="teach.html#shixun">实训基地</a>
+            <a class="btn btn-line" style="height:36px;font-size:13px" href="teacher.html">名师风采</a>
+            <a class="btn btn-line" style="height:36px;font-size:13px" href="admit.html">招生信息</a>
+            <a class="btn btn-line" style="height:36px;font-size:13px" href="ai.html">校园 AI</a>
+            <a class="btn btn-line" style="height:36px;font-size:13px" href="news.html">新闻中心</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>专业设置</h2>
+          <p>4 个办学层次，28 个中高职专业，省品牌专业 4 个、省示范专业 5 个</p>
+        </div>
+        <a class="sec-more" href="teach.html#zhuanye">全部专业 ›</a>
+      </div>
+      <div class="major-grid" data-home-majors></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>校园掠影</h2>
+          <p>新校区位于张家港市福新路 2 号，占地 360 亩，建筑面积 21 万平方米</p>
+        </div>
+      </div>
+      <div class="gallery" data-home-gallery></div>
+    </div>
+  </section>
+
+  <section class="section section-map" id="campus">
+    <div class="wrap" style="margin-bottom:22px">
+      <div class="sec-head" style="margin-bottom:0">
+        <div>
+          <h2>校园地图</h2>
+          <p>点楼栋看功能，选两点算步行路线，支持搜索与缩放</p>
+        </div>
+        <a class="sec-more" href="campus.html">全屏查看 ›</a>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <div class="map-main">
+        <div class="map-bar">
+          <div class="map-title">
+            <h1>校园平面图</h1>
+            <span>福新路 2 号 · 西侧实训区 / 东侧主校区</span>
+          </div>
+          <div class="map-tools">
+            <input id="mapSearch" type="search" placeholder="搜索楼栋，如：图书馆、S3">
+            <button type="button" id="zoomIn" title="放大">＋</button>
+            <button type="button" id="zoomOut" title="缩小">－</button>
+            <button type="button" id="zoomReset" title="复位">复位</button>
+            <button type="button" id="fullBtn" title="全屏">全屏</button>
+          </div>
+        </div>
+
+        <div class="map-canvas" id="mapCanvas">
+          <svg id="campusSvg" viewBox="0 0 1778 810" preserveAspectRatio="xMidYMid meet" role="img" aria-label="校园平面图">
+            <defs id="svgDefs"></defs>
+            <g id="layerGround"></g>
+            <g id="layerRoads"></g>
+            <g id="layerAreas"></g>
+            <g id="layerBuildings"></g>
+            <g id="layerLabels"></g>
+            <g id="layerRoute"></g>
+          </svg>
+          <div class="map-tip" id="mapTip"></div>
+          <div class="map-legend">
+            <div class="lg-title">图例</div>
+            <div class="lg-item"><i style="background:#cfdcec"></i>教学</div>
+            <div class="lg-item"><i style="background:#cbd6cd"></i>实训</div>
+            <div class="lg-item"><i style="background:#e8dcc6"></i>生活</div>
+            <div class="lg-item"><i style="background:#cfe3d4"></i>体育</div>
+            <div class="lg-item"><i style="background:#d6dce8"></i>行政</div>
+            <div class="lg-item"><i style="background:#b9dff2"></i>水域</div>
+          </div>
+          <div class="map-north"><span>北</span><i></i></div>
+        </div>
+
+        <div class="map-bottom">
+          <div class="chips-row" id="catChips"></div>
+          <div class="route-row">
+            <label>从</label>
+            <select id="fromSel"></select>
+            <label>到</label>
+            <select id="toSel"></select>
+            <button type="button" class="btn-mini primary" id="routeBtn">算步行路线</button>
+            <button type="button" class="btn-mini" id="routeClear">清除</button>
+            <span class="route-info" id="routeInfo"></span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="map-side">
+        <div class="side-card" id="detailCard">
+          <div class="side-empty">
+            <h3>选一栋楼看看</h3>
+            <p>点击地图上的编号，这里会显示它的功能、所属部门和开放时间。</p>
+            <p class="hint">也可以用上面的搜索框输入「图书馆」「S3」快速定位。</p>
+          </div>
+        </div>
+        <div class="side-card list-card">
+          <div class="list-hd">楼栋一览 <em id="listCount"></em></div>
+          <div class="list-body" id="buildList"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section alt" style="padding-bottom:34px">
+    <div class="wrap">
+      <div class="sec-head"><div><h2>友情链接</h2><p>教育主管部门与公共服务平台</p></div></div>
+      <div class="tag-list" id="links"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" data-shell="footer"></footer>
+
+<script src="js/data.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/knowledge.js"></script>
+<script src="js/brain.js"></script>
+<script src="js/main.js"></script>
+<script src="js/campus.js"></script>
+<script src="js/home-ai.js"></script>
+<script>
+(function () {
+  var box = document.getElementById("links");
+  if (box) {
+    box.innerHTML = LINKS.map(function (x) {
+      return '<li><a href="' + x.u + '" target="_blank" rel="noopener">' + x.n + '</a></li>';
+    }).join("");
+  }
+})();
+</script>
+</body>
+</html>

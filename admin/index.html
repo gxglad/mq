@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>后台登录 · 江苏省张家港中等专业学校</title>
+<link rel="icon" href="../assets/icons/favicon.png" type="image/png">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-left">
+      <div>
+        <h1>学校门户网站<br>内容管理系统</h1>
+        <div class="sub">ZHANGJIAGANG SECONDARY SPECIALIZED SCHOOL · CMS</div>
+        <ul class="list">
+          <li>新闻发布与栏目管理</li>
+          <li>专业、课程、实训基地维护</li>
+          <li>校园公告与横幅轮播配置</li>
+          <li>AI 快速任务台的知识条目维护</li>
+          <li>操作日志与账号权限管理</li>
+        </ul>
+      </div>
+      <div class="foot">2022 级毕业设计 · 计算机网络技术</div>
+    </div>
+
+    <div class="login-form">
+      <h2>管理员登录</h2>
+      <p class="tip">请使用分配的账号登录，登录状态默认保持 7 天。</p>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="field">
+          <label for="acc">账号</label>
+          <input id="acc" name="acc" type="text" placeholder="请输入账号" autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="pwd">密码</label>
+          <input id="pwd" name="pwd" type="password" placeholder="请输入密码" autocomplete="current-password">
+        </div>
+        <div class="field">
+          <label for="code">验证码</label>
+          <div class="row">
+            <input id="code" name="code" type="text" placeholder="不区分大小写" maxlength="4">
+            <div class="captcha" id="captcha" title="点击刷新"></div>
+          </div>
+        </div>
+
+        <div class="row-between">
+          <label><input type="checkbox" id="remember" checked> 7 天内免登录</label>
+          <span style="color:#7b8698">忘记密码请联系信息中心</span>
+        </div>
+
+        <p class="err" id="err"></p>
+        <button class="btn btn-primary btn-full" type="submit">登 录</button>
+      </form>
+
+      <div class="note">
+        演示账号：<b>admin</b> / <b>admin123</b>（内容管理员）　<b>editor</b> / <b>editor123</b>（编辑）<br>
+        本系统为毕业设计作品，账号与数据仅保存在本机浏览器中，不会上传服务器。
+      </div>
+      <div style="margin-top:14px"><a href="../index.html" style="font-size:13px;color:#4a5566">← 返回门户首页</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEY_ACC = "mq_admin_accounts";
+  var KEY_SESSION = "mq_admin_session";
+
+  var DEFAULT_ACCOUNTS = [
+    { u: "admin", p: "admin123", n: "系统管理员", r: "超级管理员", d: "信息中心" },
+    { u: "editor", p: "editor123", n: "内容编辑", r: "编辑", d: "信息工程系" }
+  ];
+
+  function readAccounts() {
+    try {
+      var raw = localStorage.getItem(KEY_ACC);
+      if (!raw) return DEFAULT_ACCOUNTS.slice();
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) && arr.length ? arr : DEFAULT_ACCOUNTS.slice();
+    } catch (e) {
+      return DEFAULT_ACCOUNTS.slice();
+    }
+  }
+
+  function saveAccounts(arr) {
+    try { localStorage.setItem(KEY_ACC, JSON.stringify(arr)); } catch (e) {}
+  }
+
+  function hasSession() {
+    try {
+      var raw = localStorage.getItem(KEY_SESSION);
+      if (!raw) return false;
+      var s = JSON.parse(raw);
+      if (!s || !s.u) return false;
+      if (s.exp && Date.now() > s.exp) { localStorage.removeItem(KEY_SESSION); return false; }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  var code = "";
+  function newCode() {
+    var pool = "ABCDEFGHJKLMNPQRSTUVWXY3456789";
+    code = "";
+    for (var i = 0; i < 4; i++) code += pool[Math.floor(Math.random() * pool.length)];
+    var el = document.getElementById("captcha");
+    el.textContent = code;
+    el.style.transform = "rotate(" + (Math.random() * 8 - 4).toFixed(1) + "deg)";
+  }
+
+  document.getElementById("captcha").addEventListener("click", newCode);
+  newCode();
+
+  if (!localStorage.getItem(KEY_ACC)) saveAccounts(DEFAULT_ACCOUNTS);
+
+  if (hasSession()) {
+    location.replace("dashboard.html");
+    return;
+  }
+
+  var err = document.getElementById("err");
+
+  document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    err.textContent = "";
+    var acc = document.getElementById("acc").value.trim();
+    var pwd = document.getElementById("pwd").value;
+    var cd = document.getElementById("code").value.trim().toUpperCase();
+
+    if (!acc) { err.textContent = "请输入账号"; return; }
+    if (!pwd) { err.textContent = "请输入密码"; return; }
+    if (!cd) { err.textContent = "请输入验证码"; return; }
+    if (cd !== code) { err.textContent = "验证码不正确"; newCode(); document.getElementById("code").value = ""; return; }
+
+    var list = readAccounts();
+    var hit = null;
+    for (var i = 0; i < list.length; i++) {
+      if (list[i].u === acc && list[i].p === pwd) { hit = list[i]; break; }
+    }
+    if (!hit) {
+      err.textContent = "账号或密码错误，请重新输入";
+      newCode();
+      document.getElementById("code").value = "";
+      return;
+    }
+
+    var remember = document.getElementById("remember").checked;
+    var session = {
+      u: hit.u,
+      n: hit.n,
+      r: hit.r,
+      d: hit.d,
+      at: Date.now(),
+      exp: remember ? Date.now() + 7 * 24 * 3600 * 1000 : Date.now() + 12 * 3600 * 1000
+    };
+    try {
+      localStorage.setItem(KEY_SESSION, JSON.stringify(session));
+      if (!remember) sessionStorage.setItem("mq_admin_session_tmp", "1");
+    } catch (e2) {}
+
+    location.replace("dashboard.html");
+  });
+})();
+</script>
+</body>
+</html>

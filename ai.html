@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>校园 AI · 江苏省张家港中等专业学校</title>
+<meta name="description" content="一句话说清要查什么，多件事一起问，分开检索后一次返回，附原文出处。">
+<link rel="icon" href="assets/icons/favicon.png" type="image/png">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/ai.css">
+</head>
+<body class="ai-page" data-page="ai">
+<div class="topbar" data-shell="top"></div>
+<header class="masthead" data-shell="masthead"></header>
+<nav class="nav" data-shell="nav"></nav>
+
+<section class="ai-hero" style="padding:36px 0 32px">
+  <div class="wrap">
+    <div class="ai-hero-badge"><em></em>AI 检索台 · 站内资料已索引</div>
+    <h1 style="font-size:clamp(26px,3vw,38px)">把要查的一次说完</h1>
+    <p class="lead">一句话里可以带好几件事，用加号或顿号隔开。回车就查，各自出结果。</p>
+  </div>
+</section>
+
+<div class="wrap console">
+  <div class="console-grid">
+    <div>
+      <div class="console-bar">
+        <div class="hint">
+          <span>一句话说清要查什么，多件事用 <b>+</b> 或 <b>、</b> 隔开，直接回车</span>
+        </div>
+        <form class="console-input" id="askForm" autocomplete="off">
+          <input id="askInput" type="text" placeholder="例：今年竞赛获奖 + 学校介绍 + 宿舍几人一间 + 怎么报名">
+          <button type="submit">检索 →</button>
+        </form>
+        <div class="split-preview" id="splitPreview"><span class="lb">识别到的任务会显示在这里</span></div>
+      </div>
+
+      <div class="console-tools">
+        <span>任务列表　<b id="doneCount">0 / 0</b></span>
+        <div class="acts">
+          <button type="button" id="reRun">重跑全部</button>
+          <button type="button" id="clearAll">清空</button>
+        </div>
+      </div>
+
+      <div id="batchBox"></div>
+      <div id="taskList"></div>
+    </div>
+
+    <aside class="ai-side">
+      <div class="panel">
+        <h3>本次运行</h3>
+        <div class="bd">
+          <div class="kv"><span>任务总数</span><b id="stTotal">0</b></div>
+          <div class="kv"><span>已完成</span><b id="stDone">0</b></div>
+          <div class="kv"><span>命中条目</span><b id="stRefs">0</b></div>
+          <div class="kv"><span>知识库条目</span><b id="stKb">0</b></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>可以问这些</h3>
+        <div class="bd">
+          <div class="topic-grid" id="topics"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>说明</h3>
+        <div class="bd">
+          <p class="note">答案里的数字与条款来自本站收录的学校公开资料，每条都带出处链接，可以点开核对原文。多个任务之间互不影响。</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer class="footer" data-shell="footer"></footer>
+
+<script src="js/data.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/knowledge.js"></script>
+<script src="js/brain.js"></script>
+<script src="js/main.js"></script>
+<script src="js/ai.js"></script>
+</body>
+</html>

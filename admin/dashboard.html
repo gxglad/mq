@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>内容管理 · 江苏省张家港中等专业学校</title>
+<link rel="icon" href="../assets/icons/favicon.png" type="image/png">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="layout">
+  <aside class="side">
+    <div class="logo">
+      <img src="../assets/icons/emblem.png" alt="">
+      <span><b>张中专 · 内容管理</b><span>CMS v1.2</span></span>
+    </div>
+
+    <div class="grp">概览</div>
+    <a class="item" data-page="dash"><span class="dot"></span>工作台</a>
+
+    <div class="grp">内容维护</div>
+    <a class="item" data-page="news"><span class="dot"></span>新闻管理</a>
+    <a class="item" data-page="banners"><span class="dot"></span>首页横幅</a>
+    <a class="item" data-page="majors"><span class="dot"></span>专业设置</a>
+    <a class="item" data-page="courses"><span class="dot"></span>课程管理</a>
+    <a class="item" data-page="bases"><span class="dot"></span>实训基地</a>
+
+    <div class="grp">智能服务</div>
+    <a class="item" data-page="ai"><span class="dot"></span>AI 知识条目</a>
+
+    <div class="grp">系统</div>
+    <a class="item" data-page="users"><span class="dot"></span>账号管理</a>
+    <a class="item" data-page="logs"><span class="dot"></span>操作日志</a>
+    <a class="item" data-page="settings"><span class="dot"></span>站点设置</a>
+
+    <div class="side-foot">
+      <a href="../index.html" target="_blank">打开前台门户 ↗</a><br>
+      登录时间 <span id="sideTime">—</span>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="head">
+      <h2 id="pageTitle">工作台</h2>
+      <span class="crumb" id="pageCrumb">首页 / 工作台</span>
+      <div class="right">
+        <span class="badge" id="roleBadge">超级管理员</span>
+        <div class="who">
+          <img src="../assets/avatars/student-01.jpg" alt="">
+          <span id="whoName">系统管理员</span>
+        </div>
+        <button class="btn btn-line btn-sm" id="btnLogout" type="button">退出</button>
+      </div>
+    </header>
+
+    <div class="body" id="view"></div>
+  </div>
+</div>
+
+<div class="mask" id="mask">
+  <div class="dialog">
+    <div class="dialog-hd">
+      <h3 id="dlgTitle">编辑</h3>
+      <button type="button" id="dlgClose">×</button>
+    </div>
+    <div class="dialog-bd" id="dlgBody"></div>
+    <div class="dialog-ft">
+      <button class="btn btn-line" type="button" id="dlgCancel">取消</button>
+      <button class="btn btn-primary" type="button" id="dlgOk">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/store.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
