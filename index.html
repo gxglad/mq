@@ -56,6 +56,86 @@
 
   <section class="facts"><div class="wrap" data-facts></div></section>
 
+  <section class="section section-map" id="campus">
+    <div class="wrap" style="margin-bottom:22px">
+      <div class="sec-head" style="margin-bottom:0">
+        <div>
+          <h2>校园地图</h2>
+          <p>点楼栋看功能，选两点算步行路线，支持搜索与缩放</p>
+        </div>
+        <a class="sec-more" href="campus.html">全屏查看 ›</a>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <div class="map-main">
+        <div class="map-bar">
+          <div class="map-title">
+            <h1>校园平面图</h1>
+            <span>福新路 2 号 · 西侧实训区 / 东侧主校区</span>
+          </div>
+          <div class="map-tools">
+            <input id="mapSearch" type="search" placeholder="搜索楼栋，如：图书馆、S3">
+            <button type="button" id="zoomIn" title="放大">＋</button>
+            <button type="button" id="zoomOut" title="缩小">－</button>
+            <button type="button" id="zoomReset" title="复位">复位</button>
+            <button type="button" id="fullBtn" title="全屏">全屏</button>
+          </div>
+        </div>
+
+        <div class="map-canvas" id="mapCanvas">
+          <svg id="campusSvg" viewBox="0 0 1778 810" preserveAspectRatio="xMidYMid meet" role="img" aria-label="校园平面图">
+            <defs id="svgDefs"></defs>
+            <g id="layerGround"></g>
+            <g id="layerRoads"></g>
+            <g id="layerAreas"></g>
+            <g id="layerBuildings"></g>
+            <g id="layerLabels"></g>
+            <g id="layerRoute"></g>
+          </svg>
+          <div class="map-tip" id="mapTip"></div>
+          <div class="map-legend">
+            <div class="lg-title">图例</div>
+            <div class="lg-item"><i style="background:#cfdcec"></i>教学</div>
+            <div class="lg-item"><i style="background:#cbd6cd"></i>实训</div>
+            <div class="lg-item"><i style="background:#e8dcc6"></i>生活</div>
+            <div class="lg-item"><i style="background:#cfe3d4"></i>体育</div>
+            <div class="lg-item"><i style="background:#d6dce8"></i>行政</div>
+            <div class="lg-item"><i style="background:#b9dff2"></i>水域</div>
+          </div>
+          <div class="map-north"><span>北</span><i></i></div>
+        </div>
+
+        <div class="map-bottom">
+          <div class="chips-row" id="catChips"></div>
+          <div class="route-row">
+            <label>从</label>
+            <select id="fromSel"></select>
+            <label>到</label>
+            <select id="toSel"></select>
+            <button type="button" class="btn-mini primary" id="routeBtn">算步行路线</button>
+            <button type="button" class="btn-mini" id="routeClear">清除</button>
+            <span class="route-info" id="routeInfo"></span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="map-side">
+        <div class="side-card" id="detailCard">
+          <div class="side-empty">
+            <h3>选一栋楼看看</h3>
+            <p>点击地图上的编号，这里会显示它的功能、所属部门和开放时间。</p>
+            <p class="hint">也可以用上面的搜索框输入「图书馆」「S3」快速定位。</p>
+          </div>
+        </div>
+        <div class="side-card list-card">
+          <div class="list-hd">楼栋一览 <em id="listCount"></em></div>
+          <div class="list-body" id="buildList"></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
   <section class="section">
     <div class="wrap">
       <div class="sec-head">
@@ -151,86 +231,6 @@
         </div>
       </div>
       <div class="gallery" data-home-gallery></div>
-    </div>
-  </section>
-
-  <section class="section section-map" id="campus">
-    <div class="wrap" style="margin-bottom:22px">
-      <div class="sec-head" style="margin-bottom:0">
-        <div>
-          <h2>校园地图</h2>
-          <p>点楼栋看功能，选两点算步行路线，支持搜索与缩放</p>
-        </div>
-        <a class="sec-more" href="campus.html">全屏查看 ›</a>
-      </div>
-    </div>
-
-    <div class="map-wrap">
-      <div class="map-main">
-        <div class="map-bar">
-          <div class="map-title">
-            <h1>校园平面图</h1>
-            <span>福新路 2 号 · 西侧实训区 / 东侧主校区</span>
-          </div>
-          <div class="map-tools">
-            <input id="mapSearch" type="search" placeholder="搜索楼栋，如：图书馆、S3">
-            <button type="button" id="zoomIn" title="放大">＋</button>
-            <button type="button" id="zoomOut" title="缩小">－</button>
-            <button type="button" id="zoomReset" title="复位">复位</button>
-            <button type="button" id="fullBtn" title="全屏">全屏</button>
-          </div>
-        </div>
-
-        <div class="map-canvas" id="mapCanvas">
-          <svg id="campusSvg" viewBox="0 0 1778 810" preserveAspectRatio="xMidYMid meet" role="img" aria-label="校园平面图">
-            <defs id="svgDefs"></defs>
-            <g id="layerGround"></g>
-            <g id="layerRoads"></g>
-            <g id="layerAreas"></g>
-            <g id="layerBuildings"></g>
-            <g id="layerLabels"></g>
-            <g id="layerRoute"></g>
-          </svg>
-          <div class="map-tip" id="mapTip"></div>
-          <div class="map-legend">
-            <div class="lg-title">图例</div>
-            <div class="lg-item"><i style="background:#cfdcec"></i>教学</div>
-            <div class="lg-item"><i style="background:#cbd6cd"></i>实训</div>
-            <div class="lg-item"><i style="background:#e8dcc6"></i>生活</div>
-            <div class="lg-item"><i style="background:#cfe3d4"></i>体育</div>
-            <div class="lg-item"><i style="background:#d6dce8"></i>行政</div>
-            <div class="lg-item"><i style="background:#b9dff2"></i>水域</div>
-          </div>
-          <div class="map-north"><span>北</span><i></i></div>
-        </div>
-
-        <div class="map-bottom">
-          <div class="chips-row" id="catChips"></div>
-          <div class="route-row">
-            <label>从</label>
-            <select id="fromSel"></select>
-            <label>到</label>
-            <select id="toSel"></select>
-            <button type="button" class="btn-mini primary" id="routeBtn">算步行路线</button>
-            <button type="button" class="btn-mini" id="routeClear">清除</button>
-            <span class="route-info" id="routeInfo"></span>
-          </div>
-        </div>
-      </div>
-
-      <aside class="map-side">
-        <div class="side-card" id="detailCard">
-          <div class="side-empty">
-            <h3>选一栋楼看看</h3>
-            <p>点击地图上的编号，这里会显示它的功能、所属部门和开放时间。</p>
-            <p class="hint">也可以用上面的搜索框输入「图书馆」「S3」快速定位。</p>
-          </div>
-        </div>
-        <div class="side-card list-card">
-          <div class="list-hd">楼栋一览 <em id="listCount"></em></div>
-          <div class="list-body" id="buildList"></div>
-        </div>
-      </aside>
     </div>
   </section>
 
